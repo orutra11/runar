@@ -9,12 +9,22 @@
 
 {% block content %}
     <div class="row">
-        <h2>Main Content</h2>
-        <canvas id="first-canvas"></canvas>
-
+        <div class="col-12">
+            <h2>Main Content</h2>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12 col-md-6">
+            <canvas id="first-canvas"></canvas>
+        </div>
+        <div class="col-12 col-md-6">
+            <canvas id="second-canvas"></canvas>
+        </div>
     </div>
 {% endblock %}
 
 {% block scripts %}
+    {{ super() }}
     <script src="{{ url_for('static', filename='js/my_first_graph.js') }}"></script>
+    <!-- <script src="{{ url_for('static', filename='js/my_second_graph.js') }}"></script> -->
 {% endblock %}
