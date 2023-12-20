@@ -5,3 +5,38 @@
 #last-five-body span.date-hour {
     font-size: 0.75em;
 }
+
+.badge.bg-interval {
+    background-color: #c81d25;
+}
+
+.badge.bg-easy {
+    background-color: #004e98;
+}
+
+.badge.bg-warmup {
+    background-color: #c0c0c0;
+}
+
+.badge.bg-race {
+    background-color: #008000;
+}
+
+.badge.bg-fartlek {
+    background-color: #f3722c;
+}
+.badge.bg-tempo {
+    background-color: #f1ba4f;
+}
+.badge.bg-hills {
+    background-color: #ff4d6d;
+}
+.badge.bg-longrun {
+    background-color: #012a4a;
+}
+.badge.bg-progressive {
+    background-color: #7b2cbf;
+}
+.badge.bg-na {
+    background-color: #5e503f;
+}

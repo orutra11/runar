@@ -28,6 +28,11 @@
     </div>
     <div class="row">
         <div class="col-12">
+            <canvas id="tag-totals"></canvas>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
             <table id="last-five" class="table table-striped">
                 <thead>
                     <tr>
@@ -51,4 +56,5 @@
     {{ super() }}
     <script src="{{ url_for('static', filename='js/my_first_graph.js') }}"></script>
     <script src="{{ url_for('static', filename='js/last_five.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/tag_totals.js') }}"></script>
 {% endblock %}

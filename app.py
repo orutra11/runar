@@ -32,6 +32,29 @@ def get_totals_by_year_month():
     return totals_chartjs
 
 
+def get_tag_totals_by_year_month():
+    con = sqlite3.connect("/Users/arturo/HealthData/DBs/garmin_activities.db")
+    cur = con.cursor()
+    res = cur.execute(
+        """
+            SELECT year, month, 
+            I, F, H, P, T,
+            C, E, L, NA,
+            R
+            FROM VIEW_tag_totals_by_year_month
+        """
+    )
+
+    totals = res.fetchall()
+    totals_chartjs = list_to_dict(
+        totals, ["year", "month", "I", "F", "H", "P", "T", "C", "E", "L", "NA", "R"]
+    )
+    cur.close()
+    con.close()
+
+    return totals_chartjs
+
+
 def get_last_five():
     con = sqlite3.connect("/Users/arturo/HealthData/DBs/garmin_activities.db")
     cur = con.cursor()
@@ -60,6 +83,12 @@ def index():
 @app.route("/api/yr_month_totals")
 def yr_totals():
     totals = get_totals_by_year_month()
+    return jsonify(totals)
+
+
+@app.route("/api/tag_totals")
+def tag_totals():
+    totals = get_tag_totals_by_year_month()
     return jsonify(totals)
 
 
