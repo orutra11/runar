@@ -47,8 +47,8 @@ const m_avg = (yr_m_obj) => {
     return m_distance;
 };
 
-const ctx = document.getElementById("first-canvas");
-const ctx2 = document.getElementById("second-canvas");
+const chrt_1_ctx = document.getElementById("first-canvas");
+const chrt_2_ctx = document.getElementById("second-canvas");
 
 const data = fetch("/api/yr_month_totals")
     .then((response) => response.json())
@@ -56,7 +56,7 @@ const data = fetch("/api/yr_month_totals")
         let yr_distance = yr_sum(data);
         let m_distance = m_avg(data);
 
-        const chart = new Chart(ctx, {
+        const chart = new Chart(chrt_1_ctx, {
             type: "bar",
             data: {
                 labels: yr_distance.map((row) => row.year),
@@ -85,7 +85,7 @@ const data = fetch("/api/yr_month_totals")
             },
         });
 
-        const chart2 = new Chart(ctx2, {
+        const chart2 = new Chart(chrt_2_ctx, {
             type: "bar",
             data: {
                 labels: m_distance.map((row) => row.month),

@@ -1,0 +1,7 @@
+#last-five-body > tr {
+    vertical-align: middle;
+}
+
+#last-five-body span.date-hour {
+    font-size: 0.75em;
+}
