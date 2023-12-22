@@ -40,3 +40,11 @@
 .badge.bg-na {
     background-color: #5e503f;
 }
+
+#q-button, #stack-button {
+    width: 120px;
+    height: 30px;
+    margin: 0px 6px;
+    line-height: 0.75em;
+    font-size: 14px;
+}

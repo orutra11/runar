@@ -69,7 +69,11 @@ const data = fetch("/api/yr_month_totals")
                 ],
             },
             options: {
-                responsive: true,
+                plugins: {
+                    legend: {
+                        display: false,
+                    },
+                },
                 events: ["click", "mousemove"],
                 scales: {
                     x: {
@@ -98,7 +102,12 @@ const data = fetch("/api/yr_month_totals")
                 ],
             },
             options: {
-                events: ["click", "mousemove"],
+                //events: ["click", "mousemove"],
+                plugins: {
+                    legend: {
+                        display: false,
+                    },
+                },
                 scales: {
                     x: {
                         grid: {
@@ -121,6 +130,32 @@ const data = fetch("/api/yr_month_totals")
             );
 
             if (points.length) {
+                // Change styly from origin chart
+                const n_data_points =
+                    chart.data.datasets[points[0].datasetIndex].data.length;
+
+                const original_background_color = "rgba(54, 162, 235, 0.5)";
+                const original_border_color = "rgba(54, 162, 235, 1)";
+
+                const repeat = (arr, n) => [].concat(...Array(n).fill(arr));
+                const newBackgroundColor = repeat(
+                    original_background_color,
+                    n_data_points
+                );
+                const newBorderColor = repeat(
+                    original_border_color,
+                    n_data_points
+                );
+
+                newBackgroundColor[points[0].index] = "rgba(150, 206, 0, 0.5)";
+                newBorderColor[points[0].index] = "rgba(150, 206, 0, 1)";
+                chart.data.datasets[points[0].datasetIndex].backgroundColor =
+                    newBackgroundColor;
+                chart.data.datasets[points[0].datasetIndex].borderColor =
+                    newBorderColor;
+                chart.update();
+
+                // Filter monthly chart
                 const yr_click = chart.data.labels[points[0].index];
                 const filtered_data = data.filter(
                     (row) => row.year === yr_click

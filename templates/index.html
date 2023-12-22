@@ -27,8 +27,23 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-12">
-            <canvas id="tag-totals"></canvas>
+        <div class="col-6">
+            <div class="row">
+                <canvas id="tag-totals"></canvas>
+            </div>
+            <div class="row">
+                <div class="col-12 d-flex justify-content-center">
+                    <button id="q-button" class="btn btn-outline-primary" onClick="toggleDataset()">Q/NQ View   </button>
+                    <button id="stack-button" class="btn btn-outline-primary" onClick="toggleStack()">Relative</button>
+                </div>
+            </div>
+        </div>
+        <div class="col-6">
+            <div class="row">
+                <canvas id="bubble-distance">
+
+                </canvas>
+            </div>
         </div>
     </div>
     <div class="row">
@@ -57,4 +72,5 @@
     <script src="{{ url_for('static', filename='js/my_first_graph.js') }}"></script>
     <script src="{{ url_for('static', filename='js/last_five.js') }}"></script>
     <script src="{{ url_for('static', filename='js/tag_totals.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/bubble_distance.js') }}"></script>
 {% endblock %}

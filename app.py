@@ -55,6 +55,25 @@ def get_tag_totals_by_year_month():
     return totals_chartjs
 
 
+def get_q_totals_by_year_month():
+    con = sqlite3.connect("/Users/arturo/HealthData/DBs/garmin_activities.db")
+    cur = con.cursor()
+    res = cur.execute(
+        """
+            SELECT year, month, 
+            Q, NQ, NA, R
+            FROM VIEW_q_totals_by_year_month
+        """
+    )
+
+    totals = res.fetchall()
+    totals_chartjs = list_to_dict(totals, ["year", "month", "Q", "NQ", "NA", "R"])
+    cur.close()
+    con.close()
+
+    return totals_chartjs
+
+
 def get_last_five():
     con = sqlite3.connect("/Users/arturo/HealthData/DBs/garmin_activities.db")
     cur = con.cursor()
@@ -75,6 +94,24 @@ def get_last_five():
     return last_five_dict
 
 
+def get_bubble_view():
+    con = sqlite3.connect("/Users/arturo/HealthData/DBs/garmin_activities.db")
+    cur = con.cursor()
+    res = cur.execute(
+        """
+            SELECT date, distance, speed
+            FROM VIEW_date_distance_speed_E_L
+        """
+    )
+
+    bubble_data = res.fetchall()
+    bubble_data_dict = list_to_dict(bubble_data, ["date", "distance", "speed"])
+    cur.close()
+    con.close()
+
+    return bubble_data_dict
+
+
 @app.route("/")
 def index():
     return render_template("index.html")
@@ -92,10 +129,22 @@ def tag_totals():
     return jsonify(totals)
 
 
+@app.route("/api/q_totals")
+def q_totals():
+    totals = get_q_totals_by_year_month()
+    return jsonify(totals)
+
+
 @app.route("/api/last_five")
 def last_five():
     last_five = get_last_five()
     return jsonify(last_five)
+
+
+@app.route("/api/bubble_distance")
+def bubble_distance():
+    bubbles = get_bubble_view()
+    return jsonify(bubbles)
 
 
 @app.route("/activity/<activity_id>")
