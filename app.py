@@ -1,6 +1,6 @@
 import sqlite3
 import re
-from flask import Flask, render_template, abort, jsonify
+from flask import Flask, render_template, abort, jsonify, request
 
 app = Flask(__name__, static_folder="static", template_folder="templates")
 
@@ -112,6 +112,31 @@ def get_bubble_view():
     return bubble_data_dict
 
 
+def get_top_performance(interval):
+    def virtual_view(interval):
+        view_query = f"""
+            SELECT CAST(Substr(start_time, 1, 4) AS INTEGER) year, 
+                   name, 
+                   strftime('%s',moving_time)-strftime('%s','00:00') + mod(strftime('%f',moving_time)-strftime('%f','00:00'), 1) elapsed_seconds, 
+                   Rank() over (Partition BY interval_class ORDER BY moving_time ASC ) AS rank
+            FROM SMRY_interval_list
+            WHERE interval_class = 'I-{interval}' AND distance >= {int(interval)/1000*0.9}
+            """
+        return view_query
+
+    print(f"Getting {interval} interval VIEW")
+    con = sqlite3.connect("/Users/arturo/HealthData/DBs/garmin_activities.db")
+    cur = con.cursor()
+    res = cur.execute(virtual_view(interval))
+
+    top_data = res.fetchall()
+    top_data_dict = list_to_dict(top_data, ["year", "act_name", "seconds", "rank"])
+    cur.close()
+    con.close()
+
+    return top_data_dict
+
+
 @app.route("/")
 def index():
     return render_template("index.html")
@@ -145,6 +170,17 @@ def last_five():
 def bubble_distance():
     bubbles = get_bubble_view()
     return jsonify(bubbles)
+
+
+@app.route("/api/i-<int:interval>", methods=["GET", "POST"])
+def top_performance(interval):
+    if request.method == "GET":
+        i400 = get_top_performance(interval)
+        return jsonify(i400)
+    elif request.method == "POST":
+        req_json = request.get_json()
+        top_i = get_top_performance(req_json["interval"])
+        return jsonify(top_i)
 
 
 @app.route("/activity/<activity_id>")

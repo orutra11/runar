@@ -31,7 +31,7 @@ fetch("/api/bubble_distance")
                 {
                     label: "Speed v Distance",
                     data: chartjs_data.filter(
-                        (row) => row["x"].getFullYear() >= 2023
+                        (row) => row["x"].getFullYear() >= 2022
                     ),
                     backgroundColor: "rgba(255, 99, 132, 0.5)",
                     borderColor: "rgba(255, 99, 132)",
