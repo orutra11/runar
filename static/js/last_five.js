@@ -16,7 +16,10 @@ fetch("/api/last_five")
             let name = row.insertCell(1);
             name.innerHTML = act["name"];
 
-            const tag_arr = act["tag"].split("|");
+            let tag_arr = [];
+            if (act["tag"]) {
+                tag_arr = act["tag"].split("|");
+            }
             const tag_badges = tag_arr.map((t) => {
                 let color;
                 if (t.includes("I")) color = "interval";

@@ -1,20 +1,5 @@
 const bubble_dist_ctx = document.getElementById("bubble-distance");
 
-const speedToPace = (speed) => {
-    return 60 / speed;
-};
-
-const formatPace = (pace, textappend = false) => {
-    const min = Math.floor(pace);
-    const rest = pace - min;
-    const segFloat = 60 * rest;
-    const segInt = Math.floor(segFloat);
-    //const restSeg = segFloat - segInt;
-    return `${min}:${segInt < 10 ? "0" + segInt : segInt} ${
-        textappend ? "min/km" : ""
-    }`;
-};
-
 fetch("/api/bubble_distance")
     .then((res) => res.json())
     .then((indata) => {

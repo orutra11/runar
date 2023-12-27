@@ -6,16 +6,64 @@
 {% endblock %}
 
 
-{% block header %}
+{% block navbar %}
     {{ super() }}
-    <h1>Header</h1>
-    <h3>Subheader goes here</h3>
+    <nav id="runar-nav" class="navbar sticky-top">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="#">RUNAR</a>
+        </div>
+      </nav>
 {% endblock %}
 
 {% block content %}
     <div class="row">
         <div class="col-12">
             <h2>Main Content</h2>
+        </div>
+    </div>
+   
+    <div class="row">
+        <div class="col-12 col-md-4">
+            <canvas id="yearly-distance"></canvas>
+        </div>
+        <div class="col-12 col-md-4">
+            <canvas id="monthly-distance"></canvas>
+        </div>
+        <div class="col-12 col-md-4">
+            <canvas id="bubble-distance"></canvas>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <div class="row">
+                <div class="col-12 d-flex justify-content-center">
+                    <button id="q-button" class="btn btn-outline-primary" onClick="toggleDataset()">Q/NQ View   </button>
+                    <button id="stack-button" class="btn btn-outline-primary" onClick="toggleStack()">Relative</button>
+                </div>
+            </div>
+            <div id="tag-chart-row" class="row">
+                <canvas id="tag-totals"></canvas>
+            </div>
+        </div>
+        
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <table id="last-five" class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Name</th>
+                        <th>Tag</th>
+                        <th>Distance</th>
+                        <th>Elapsed</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody id="last-five-body">
+
+                </tbody>
+            </table>
         </div>
     </div>
     <div class="row">
@@ -37,60 +85,16 @@
             <canvas id="top-performances"></canvas>
         </div>
     </div>
-    <div class="row">
-        <div class="col-12 col-md-6">
-            <canvas id="first-canvas"></canvas>
-        </div>
-        <div class="col-12 col-md-6">
-            <canvas id="second-canvas"></canvas>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-6">
-            <div class="row">
-                <canvas id="tag-totals"></canvas>
-            </div>
-            <div class="row">
-                <div class="col-12 d-flex justify-content-center">
-                    <button id="q-button" class="btn btn-outline-primary" onClick="toggleDataset()">Q/NQ View   </button>
-                    <button id="stack-button" class="btn btn-outline-primary" onClick="toggleStack()">Relative</button>
-                </div>
-            </div>
-        </div>
-        <div class="col-6">
-            <div class="row">
-                <canvas id="bubble-distance">
-
-                </canvas>
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-12">
-            <table id="last-five" class="table table-striped">
-                <thead>
-                    <tr>
-                        <th>Date</th>
-                        <th>Name</th>
-                        <th>Tag</th>
-                        <th>Distance</th>
-                        <th>Elapsed</th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody id="last-five-body">
-
-                </tbody>
-            </table>
-        </div>
-    </div>
 {% endblock %}
 
 {% block scripts %}
     {{ super() }}
-    <script src="{{ url_for('static', filename='js/my_first_graph.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/handlers.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/utils.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/my_graphs.js') }}"></script>
     <script src="{{ url_for('static', filename='js/last_five.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/tag_totals.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/bubble_distance.js') }}"></script>
     <script src="{{ url_for('static', filename='js/top_performances.js') }}"></script>
+    <!-- <script src="{{ url_for('static', filename='js/year_month_totals.js') }}"></script> -->
+    <!-- <script src="{{ url_for('static', filename='js/tag_totals.js') }}"></script> -->
+    <!-- <script src="{{ url_for('static', filename='js/bubble_distance.js') }}"></script> -->
 {% endblock %}

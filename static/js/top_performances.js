@@ -1,7 +1,3 @@
-function uniqueFilter(value, index, self) {
-    return self.indexOf(value) === index;
-}
-
 const top_perf_ctx = document.getElementById("top-performances");
 
 var top_chart;
@@ -39,6 +35,26 @@ fetch("/api/i-400", req_cfg)
             type: "scatter",
             data: {
                 datasets: datasets,
+            },
+            options: {
+                plugins: {
+                    tooltip: {
+                        enabled: true,
+                        callbacks: {
+                            // labelColor: ,
+                            // beforeLabel: function (ctx) {
+                            //     return ctx.raw.year;
+                            // },
+                            label: function (ctx) {
+                                let label = [
+                                    `[# ${ctx.raw.rank}] ${ctx.raw.act_name} (${ctx.raw.year})`,
+                                    formatSplitDuration(ctx.raw.seconds),
+                                ];
+                                return label;
+                            },
+                        },
+                    },
+                },
             },
         };
 

@@ -1,54 +1,5 @@
-const yr_sum = (yr_m_obj) => {
-    let yr_distance = [];
-    yr_m_obj.reduce((res, item) => {
-        if (!res[item.year]) {
-            res[item.year] = { year: item.year, distance: 0 };
-            yr_distance.push(res[item.year]);
-        }
-        res[item.year].distance += item.distance;
-        return res;
-    }, {});
-    yr_distance.sort((a, b) => a.year - b.year);
-    return yr_distance;
-};
-
-const m_avg = (yr_m_obj) => {
-    let m_distance = [];
-    yr_m_obj.reduce((res, item) => {
-        if (!res[item.month]) {
-            res[item.month] = {
-                month: item.month,
-                distance: 0,
-                n_months: 0,
-            };
-            m_distance.push(res[item.month]);
-        }
-        res[item.month].distance += item.distance;
-        res[item.month].n_months += 1;
-        return res;
-    }, {});
-    m_distance.map((m) => {
-        m.distance /= m.n_months | 0;
-    });
-
-    m_distance.sort((a, b) => a.month - b.month);
-
-    // Fill the gaps
-    m_distance = Array.from(
-        Array(12).keys(),
-        (month) =>
-            m_distance.find((row) => +row.month === month + 1) || {
-                month: month + 1,
-                distance: 0,
-                n_months: 0,
-            }
-    );
-
-    return m_distance;
-};
-
-const chrt_1_ctx = document.getElementById("first-canvas");
-const chrt_2_ctx = document.getElementById("second-canvas");
+const chrt_1_ctx = document.getElementById("yearly-distance");
+const chrt_2_ctx = document.getElementById("monthly-distance");
 
 const data = fetch("/api/yr_month_totals")
     .then((response) => response.json())

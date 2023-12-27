@@ -1,3 +1,21 @@
+#runar-nav {
+    margin: 0.5rem;
+    border: solid 2px black;
+    border-radius: 1rem;
+    top:0.5rem;
+    background-color: #004e98;
+}
+
+#runar-nav a {
+    color: #f2f2f2;
+    font-weight: 700;
+    font-style:italic;
+}
+
+#tag-chart-row {
+    max-height: 240px;
+}
+
 #last-five-body > tr {
     vertical-align: middle;
 }
@@ -42,9 +60,16 @@
 }
 
 #q-button, #stack-button {
-    width: 120px;
-    height: 30px;
+    width: 60px;
+    height: 18px;
+    padding: 1px 2px;
     margin: 0px 6px;
-    line-height: 0.75em;
-    font-size: 14px;
+    font-size: 10px;
+}
+
+#reset-filter-button {
+    width: 44px;
+    height: 18px;
+    font-size: 9px;
+    padding: 1px 2px;
 }
