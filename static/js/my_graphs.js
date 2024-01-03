@@ -347,7 +347,7 @@ fetch("/api/bubble_distance")
             return {
                 x: new Date(row["date"]),
                 y: row["speed"],
-                r: row["distance"],
+                r: row["distance"] / 6,
             };
         });
 
@@ -382,6 +382,13 @@ fetch("/api/bubble_distance")
                         grid: {
                             display: false,
                         },
+                        ticks: {
+                            callback: (val, idx) => {
+                                return idx % 2 === 0
+                                    ? formatPace(speedToPace(val))
+                                    : "";
+                            },
+                        },
                     },
                 },
                 plugins: {
@@ -398,9 +405,9 @@ fetch("/api/bubble_distance")
 
                                 return `${
                                     values.x.toISOString().split("T")[0]
-                                }: ${formatPace(
-                                    speedToPace(values.y)
-                                )} (${values.r.toFixed(2)}km)`;
+                                }: ${formatPace(speedToPace(values.y))} (${(
+                                    values.r * 6
+                                ).toFixed(2)}km)`;
                             },
                         },
                     },

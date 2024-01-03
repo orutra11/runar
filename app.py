@@ -1,8 +1,17 @@
 import sqlite3
 import re
-from flask import Flask, render_template, abort, jsonify, request
+from flask import Flask, render_template, abort, jsonify, request, g
 
 app = Flask(__name__, static_folder="static", template_folder="templates")
+
+
+def set_menu(section):
+    menuconfig = {}
+
+    if len(section) > 0:
+        menuconfig[section] = "active"
+
+    return menuconfig
 
 
 def list_to_dict(data, keys):
@@ -120,7 +129,7 @@ def get_top_performance(interval):
                    strftime('%s',moving_time)-strftime('%s','00:00') + mod(strftime('%f',moving_time)-strftime('%f','00:00'), 1) elapsed_seconds, 
                    Rank() over (Partition BY interval_class ORDER BY moving_time ASC ) AS rank
             FROM SMRY_interval_list
-            WHERE interval_class = 'I-{interval}' AND distance >= {int(interval)/1000*0.9}
+            WHERE interval_class = 'I-{interval}' AND valid_interval = 1
             """
         return view_query
 
@@ -135,11 +144,6 @@ def get_top_performance(interval):
     con.close()
 
     return top_data_dict
-
-
-@app.route("/")
-def index():
-    return render_template("index.html")
 
 
 @app.route("/api/yr_month_totals")
@@ -181,6 +185,20 @@ def top_performance(interval):
         req_json = request.get_json()
         top_i = get_top_performance(req_json["interval"])
         return jsonify(top_i)
+
+
+@app.route("/")
+def index():
+    # mc = set_menu("Home")
+    g.mc = set_menu("home")
+    return render_template("index.html")
+
+
+@app.route("/intervals")
+def intervalsPage():
+    # mc = set_menu("Intervals")
+    g.mc = set_menu("intervals")
+    return render_template("intervals.html")
 
 
 @app.route("/activity/<activity_id>")

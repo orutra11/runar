@@ -81,3 +81,8 @@ const m_avg = (yr_m_obj) => {
 
     return m_distance;
 };
+
+const pixelValue = (scale, v) => {
+    const val = scale.getValueForPixel(v);
+    return Math.trunc(isNaN(val) ? v * 6 : 3);
+};

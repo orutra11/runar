@@ -1,17 +1,3 @@
-#runar-nav {
-    margin: 0.5rem;
-    border: solid 2px black;
-    border-radius: 1rem;
-    top:0.5rem;
-    background-color: #004e98;
-}
-
-#runar-nav a {
-    color: #f2f2f2;
-    font-weight: 700;
-    font-style:italic;
-}
-
 #tag-chart-row {
     max-height: 240px;
 }

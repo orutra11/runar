@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row">
+    <div class="col-6">
+        <select class="form-select form-select-sm" aria-label=".form-select-sm example" onchange="selectInterval(this)">
+            <option value="300">300</option>
+            <option value="400" selected>400</option>
+            <option value="500">500</option>
+            <option value="600">600</option>
+            <option value="800">800</option>
+            <option value="1000">1000</option>
+            <option value="2000">2000</option>
+            <option value="3000">3000</option>
+        </select>
+    </div>
+</div>
+<div class="row">
+    <div class="col-12">
+        <canvas id="top-performances"></canvas>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+    {{ super() }}
+    <script src="{{ url_for('static', filename='js/utils.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/top_performances.js') }}"></script>
+{% endblock %}
