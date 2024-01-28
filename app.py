@@ -1,8 +1,30 @@
 import sqlite3
 import re
+from datetime import datetime, date
 from flask import Flask, render_template, abort, jsonify, request, g
+import pandas as pd
 
 app = Flask(__name__, static_folder="static", template_folder="templates")
+
+
+def is_leap(year):
+    """
+    Calculates if a year is leap or not
+
+    Args:
+        year (int): year to check
+
+    Returns:
+        bool: leap year = True
+    """
+
+    if year % 4 != 0:
+        return False
+
+    if (year % 100 == 0) and (year % 400 != 0):
+        return False
+
+    return True
 
 
 def set_menu(section):
@@ -144,6 +166,87 @@ def get_top_performance(interval):
     con.close()
 
     return top_data_dict
+
+
+def get_yr_evolution():
+    today = datetime.now()
+    this_year = today.year
+    last_year = this_year - 1
+
+    this_doy = today.toordinal() - date(today.year, 1, 1).toordinal() + 1
+
+    con = sqlite3.connect("/Users/arturo/HealthData/DBs/garmin_activities.db")
+    cur = con.cursor()
+    res = cur.execute(
+        """
+            SELECT year, doy, cum_distance
+            FROM VIEW_cum_daily_yr_distance
+            ORDER BY year, doy ASC
+        """
+    )
+
+    daily_cum_data = res.fetchall()
+    cur.close()
+    con.close()
+
+    daily_cum_data_cols = list(zip(*daily_cum_data))
+    first_year = daily_cum_data_cols[0][0]
+    first_doy = daily_cum_data_cols[0][1]
+
+    new_data = []
+    for y in range(first_year, this_year + 1):
+        filtered_data = [x for x in daily_cum_data if x[0] == y]
+        doys = [x[1] for x in filtered_data]
+        start_doy = first_doy if y == first_year else 0
+
+        if y == this_year:
+            end_doy = this_doy + 1
+        else:
+            if is_leap(y):
+                end_doy = 366
+            else:
+                end_doy = 365
+
+        for doy in range(start_doy, end_doy):
+            if doy in doys:
+                new_data.append((y, doy, filtered_data[doys.index(doy)][2]))
+            else:
+                if doy == 0:
+                    new_data.append((y, doy, 0.0))
+                else:
+                    new_data.append((y, doy, new_data[-1][2]))
+
+    cum_data_df = pd.DataFrame(new_data, columns=["year", "doy", "distance"])
+    avg_year = (
+        cum_data_df[
+            (cum_data_df["year"] > first_year) & (cum_data_df["year"] < this_year)
+        ]
+        .groupby("doy")
+        .mean()
+        .reset_index()
+    )
+
+    avg_year = avg_year[["year", "doy", "distance"]]
+
+    avg_year_data = [("AV", *tuple(x)) for x in avg_year.values]
+
+    if len(avg_year_data) == 366:
+        avg_year_data = avg_year_data[:365]
+
+    this_year_data = [("TY", *x) for x in new_data if x[0] == this_year]
+    last_year_data = [("LY", *x) for x in new_data if x[0] == last_year]
+
+    cum_data = this_year_data + last_year_data + avg_year_data
+
+    cum_data_dict = list_to_dict(cum_data, ["ds", "year", "doy", "distance"])
+
+    return cum_data_dict
+
+
+@app.route("/api/yr_evolution")
+def yr_evolution():
+    totals = get_yr_evolution()
+    return jsonify(totals)
 
 
 @app.route("/api/yr_month_totals")

@@ -1,4 +1,8 @@
-#tag-chart-row {
+#test-chart-row {
+    max-height: 200px;
+}
+
+#tag-chart-row, #totals-chart-row {
     max-height: 240px;
 }
 
@@ -8,6 +12,48 @@
 
 #last-five-body span.date-hour {
     font-size: 0.75em;
+}
+
+.cum-distance {
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    font-size: 0px;
+}
+
+.distance-value {
+    font-size: 1rem;
+}
+
+.distance-units {
+    font-size: 0.6rem;
+}
+
+.ty-distance,
+.ly-distance,
+.av-distance {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin: auto 15px;
+}
+
+#ty-label {
+    font-size: 2rem;
+    font-weight: 700;
+    margin: auto 0;
+}
+
+#ly-label {
+    font-size: 1.5rem;
+    font-weight: 400;
+    margin: auto 0;
+}
+
+#av-label {
+    font-size: 1.25rem;
+    font-weight: 200;
+    margin: auto 0;
 }
 
 .badge.bg-interval {

@@ -7,7 +7,38 @@
 
 
 {% block content %}
-    <div class="row">
+    <div id="test-chart-row" class="row">
+        <div class="col-12 col-md-4">
+            <canvas id="test-canvas"></canvas>
+        </div>
+        <div class="col-12 col-md-2">
+            <div class="cum-distance this-year">
+                <div id="ty-label"></div>
+                <div class="ty-distance">
+                    <span id="ty-distance-value" class="distance-value"></span>
+                    <br/>
+                    <span class="distance-units">km</span>
+                </div>
+            </div>
+            <div class="cum-distance last-year">
+                <div id="ly-label"></div>
+                <div class="ly-distance">
+                    <span id="ly-distance-value" class="distance-value"></span>
+                    <br/>
+                    <span class="distance-units">km</span>    
+                </div>
+            </div>
+            <div class="cum-distance avg-year">
+                <div id="av-label"></div>
+                <div class="av-distance">
+                    <span id="av-distance-value" class="distance-value"></span>
+                    <br/>
+                    <span class="distance-units">km</span>  
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="totals-chart-row" class="row">
         <div class="col-12 col-md-4">
             <canvas id="yearly-distance"></canvas>
         </div>
@@ -60,6 +91,7 @@
     <script src="{{ url_for('static', filename='js/utils.js') }}"></script>
     <script src="{{ url_for('static', filename='js/my_graphs.js') }}"></script>
     <script src="{{ url_for('static', filename='js/last_five.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/test_graph.js') }}"></script>
     <!-- <script src="{{ url_for('static', filename='js/year_month_totals.js') }}"></script> -->
     <!-- <script src="{{ url_for('static', filename='js/tag_totals.js') }}"></script> -->
     <!-- <script src="{{ url_for('static', filename='js/bubble_distance.js') }}"></script> -->
